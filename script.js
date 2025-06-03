@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Simple fade-in animation on scroll
-  const fadeElements = document.querySelectorAll('.problem-item, .benefit-item, .result-item, .feature-item, .casestudy-item, .process-step, .pricing-plan, .faq-item');
+  const fadeElements = document.querySelectorAll('.hero-content, .problem-item, .benefit-item, .result-item, .feature-item, .casestudy-item, .process-step, .pricing-plan, .faq-item');
 
   const observerOptions = {
       root: null,
@@ -62,22 +62,43 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
 
-  // Add more "cool" JavaScript interactions as needed:
-  // - Parallax scrolling for hero image
-  // - Counter animation for result numbers
-  // - More sophisticated hover effects
-  // - Navigation bar behavior (sticky, hide on scroll down)
+  const hero = document.querySelector('.hero');
+  const counters = document.querySelectorAll('.count');
+  const animateCount = (counter) => {
+    const target = +counter.getAttribute('data-target');
+    const duration = 2000;
+    const stepTime = Math.abs(Math.floor(duration / target));
+    let count = 0;
+    const timer = setInterval(() => {
+      count += 1;
+      counter.textContent = count;
+      if (count >= target) clearInterval(timer);
+    }, stepTime);
+  };
 
-  // Example: Log to console to confirm script is loaded
+  const countObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCount(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  counters.forEach(counter => countObserver.observe(counter));
   console.log('ITSUDEMO CAKE LP Script Loaded!');
 
 });
 
 // Add class to body when scrolling to enable sticky header or other effects
 window.addEventListener('scroll', function() {
-  if (window.scrollY > 100) { // Adjust scroll distance as needed
-      document.body.classList.add('scrolled');
+  const scrollY = window.scrollY;
+  if (scrollY > 100) {
+    document.body.classList.add('scrolled');
   } else {
-      document.body.classList.remove('scrolled');
+    document.body.classList.remove('scrolled');
+  }
+  if (hero) {
+    hero.style.backgroundPositionY = `${scrollY * 0.5}px`;
   }
 });
