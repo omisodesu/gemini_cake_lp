@@ -86,7 +86,183 @@ document.addEventListener('DOMContentLoaded', function() {
   }, { threshold: 0.5 });
 
   counters.forEach(counter => countObserver.observe(counter));
-  console.log('ITSUDEMO CAKE LP Script Loaded!');
+  
+  // Stock Search Functionality
+  const stockInput = document.getElementById('stock-symbol');
+  const searchButton = document.getElementById('search-stock');
+  const stockResult = document.getElementById('stock-result');
+  const stockError = document.getElementById('stock-error');
+  const loading = document.getElementById('loading');
+  const symbolButtons = document.querySelectorAll('.symbol-btn');
+
+  // Function to show loading state
+  function showLoading() {
+    loading.style.display = 'block';
+    stockResult.style.display = 'none';
+    stockError.style.display = 'none';
+  }
+
+  // Function to hide loading state
+  function hideLoading() {
+    loading.style.display = 'none';
+  }
+
+  // Function to show error
+  function showError() {
+    stockError.style.display = 'block';
+    stockResult.style.display = 'none';
+    hideLoading();
+  }
+
+  // Function to format currency
+  function formatCurrency(value, currency = 'USD') {
+    if (value === null || value === undefined) return 'N/A';
+    return new Intl.NumberFormat('ja-JP', {
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: 2
+    }).format(value);
+  }
+
+  // Function to format percentage
+  function formatPercentage(value) {
+    if (value === null || value === undefined) return 'N/A';
+    return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
+  }
+
+  // Function to update stock display
+  function updateStockDisplay(data) {
+    // Clear previous classes
+    const changeValue = document.getElementById('price-change');
+    const changePercent = document.getElementById('price-change-percent');
+    
+    changeValue.classList.remove('positive', 'negative');
+    changePercent.classList.remove('positive', 'negative');
+
+    // Update stock information
+    document.getElementById('stock-name').textContent = data.name || data.symbol;
+    document.getElementById('stock-symbol-display').textContent = data.symbol;
+    document.getElementById('current-price').textContent = formatCurrency(data.currentPrice);
+    
+    // Calculate change
+    const change = data.currentPrice - data.previousClose;
+    const changePercent_value = ((change / data.previousClose) * 100);
+    
+    document.getElementById('price-change').textContent = `${change >= 0 ? '+' : ''}${formatCurrency(Math.abs(change))}`;
+    document.getElementById('price-change-percent').textContent = formatPercentage(changePercent_value);
+    
+    // Add positive/negative classes
+    if (change >= 0) {
+      changeValue.classList.add('positive');
+      changePercent.classList.add('positive');
+    } else {
+      changeValue.classList.add('negative');
+      changePercent.classList.add('negative');
+    }
+
+    // Update details
+    document.getElementById('day-high').textContent = formatCurrency(data.dayHigh);
+    document.getElementById('day-low').textContent = formatCurrency(data.dayLow);
+    document.getElementById('day-open').textContent = formatCurrency(data.dayOpen);
+    document.getElementById('prev-close').textContent = formatCurrency(data.previousClose);
+    
+    // Update timestamp
+    const now = new Date();
+    document.getElementById('last-updated').textContent = `最終更新: ${now.toLocaleString('ja-JP')}`;
+
+    // Show result
+    stockResult.style.display = 'block';
+    stockError.style.display = 'none';
+    hideLoading();
+  }
+
+  // Function to search stock using Yahoo Finance alternative API
+  async function searchStock(symbol) {
+    if (!symbol) {
+      showError();
+      return;
+    }
+
+    showLoading();
+    
+    try {
+      // Using Alpha Vantage free API (requires registration for API key)
+      // For demo purposes, we'll simulate with dummy data
+      // In production, you would replace this with a real API call
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Generate realistic dummy data for demo
+      const basePrice = 100 + Math.random() * 400; // Random price between 100-500
+      const changePercent = (Math.random() - 0.5) * 10; // Random change between -5% to +5%
+      const previousClose = basePrice * (1 - changePercent / 100);
+      const dayOpen = previousClose * (0.95 + Math.random() * 0.1); // Open within 5% of previous close
+      const dayHigh = basePrice * (1 + Math.random() * 0.05); // High up to 5% above current
+      const dayLow = basePrice * (0.95 - Math.random() * 0.05); // Low down to 5% below current
+
+      const dummyData = {
+        symbol: symbol.toUpperCase(),
+        name: getCompanyName(symbol.toUpperCase()),
+        currentPrice: basePrice,
+        previousClose: previousClose,
+        dayOpen: dayOpen,
+        dayHigh: dayHigh,
+        dayLow: dayLow
+      };
+
+      updateStockDisplay(dummyData);
+      
+    } catch (error) {
+      console.error('Error fetching stock data:', error);
+      showError();
+    }
+  }
+
+  // Function to get company name (dummy data for demo)
+  function getCompanyName(symbol) {
+    const companies = {
+      'AAPL': 'Apple Inc.',
+      'MSFT': 'Microsoft Corporation',
+      'GOOGL': 'Alphabet Inc.',
+      'AMZN': 'Amazon.com Inc.',
+      'TSLA': 'Tesla Inc.',
+      'META': 'Meta Platforms Inc.',
+      'NVDA': 'NVIDIA Corporation',
+      'JPM': 'JPMorgan Chase & Co.',
+      'V': 'Visa Inc.',
+      'JNJ': 'Johnson & Johnson'
+    };
+    return companies[symbol] || `${symbol} Corporation`;
+  }
+
+  // Event listeners
+  searchButton.addEventListener('click', () => {
+    const symbol = stockInput.value.trim();
+    if (symbol) {
+      searchStock(symbol);
+    }
+  });
+
+  stockInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const symbol = stockInput.value.trim();
+      if (symbol) {
+        searchStock(symbol);
+      }
+    }
+  });
+
+  // Symbol button event listeners
+  symbolButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const symbol = button.getAttribute('data-symbol');
+      stockInput.value = symbol;
+      searchStock(symbol);
+    });
+  });
+
+  console.log('ITSUDEMO CAKE LP Script Loaded with Stock Search!');
 
 });
 
