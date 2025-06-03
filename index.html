@@ -29,6 +29,7 @@
             <p class="hero-description">ケーキ予約に特化した店頭受取予約システム「いつでもケーキ」で、<br>売上アップと劇的な業務効率化を実現！</p>
             <div class="cta-buttons">
                 <a href="#contact" class="btn btn-primary scroll-link">今すぐ資料請求する (無料)</a>
+                <a href="#stock-search" class="btn btn-secondary scroll-link">株価検索を試す</a>
                 <a href="#contact" class="btn btn-secondary scroll-link">まずは気軽に相談する (無料)</a>
             </div>
             <div class="limited-offer">
@@ -342,6 +343,76 @@
                     <summary>導入までどのくらいの期間がかかりますか？</summary>
                     <p>お申込みから最短で約4週間～1ヶ月半程度（PayPal審査期間含む）で運用開始可能です。お店の状況やご要望に応じて調整いたしますので、お急ぎの場合はご相談ください。</p>
                 </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stock Price Search Section -->
+    <section id="stock-search" class="stock-search-section section-padding">
+        <div class="container">
+            <h2 class="section-title">株価検索</h2>
+            <p class="section-subtitle">リアルタイムの株価情報を検索できます</p>
+            <div class="stock-search-container">
+                <div class="stock-search-input-group">
+                    <input type="text" id="stock-symbol" placeholder="株式シンボルを入力（例: AAPL, MSFT, GOOGL）" class="stock-input">
+                    <button id="search-stock" class="btn btn-primary">検索</button>
+                </div>
+                <div id="stock-result" class="stock-result-container" style="display: none;">
+                    <div class="stock-card">
+                        <div class="stock-header">
+                            <h3 id="stock-name"></h3>
+                            <span id="stock-symbol-display" class="stock-symbol"></span>
+                        </div>
+                        <div class="stock-price-info">
+                            <div class="current-price">
+                                <span class="price-label">現在価格</span>
+                                <span id="current-price" class="price-value"></span>
+                            </div>
+                            <div class="price-change">
+                                <span id="price-change" class="change-value"></span>
+                                <span id="price-change-percent" class="change-percent"></span>
+                            </div>
+                        </div>
+                        <div class="stock-details">
+                            <div class="detail-item">
+                                <span class="detail-label">高値</span>
+                                <span id="day-high" class="detail-value"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">安値</span>
+                                <span id="day-low" class="detail-value"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">始値</span>
+                                <span id="day-open" class="detail-value"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">前日終値</span>
+                                <span id="prev-close" class="detail-value"></span>
+                            </div>
+                        </div>
+                        <div class="last-updated">
+                            <small id="last-updated"></small>
+                        </div>
+                    </div>
+                </div>
+                <div id="stock-error" class="stock-error" style="display: none;">
+                    <p>株価情報の取得に失敗しました。シンボルを確認して再度お試しください。</p>
+                </div>
+                <div id="loading" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>検索中...</p>
+                </div>
+            </div>
+            <div class="stock-examples">
+                <h4>人気の株式シンボル例：</h4>
+                <div class="symbol-examples">
+                    <button class="symbol-btn" data-symbol="AAPL">Apple (AAPL)</button>
+                    <button class="symbol-btn" data-symbol="MSFT">Microsoft (MSFT)</button>
+                    <button class="symbol-btn" data-symbol="GOOGL">Google (GOOGL)</button>
+                    <button class="symbol-btn" data-symbol="AMZN">Amazon (AMZN)</button>
+                    <button class="symbol-btn" data-symbol="TSLA">Tesla (TSLA)</button>
+                </div>
             </div>
         </div>
     </section>
