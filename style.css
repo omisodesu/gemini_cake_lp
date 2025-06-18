@@ -1846,7 +1846,29 @@ h4 {
     background: var(--bg-gradient) !important;
     color: var(--light-text-color) !important;
     position: relative;
-    overflow: hidden;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* ENHANCED FIX: Force backgrounds with highest specificity */
+  .mobile-section#solution {
+    background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%) !important;
+    color: #ffffff !important;
+  }
+  
+  .mobile-section#features {
+    background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%) !important;
+    color: #ffffff !important;
+  }
+  
+  .mobile-section#pricing {
+    background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%) !important;
+    color: #ffffff !important;
+  }
+  
+  .mobile-section#contact {
+    background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%) !important;
+    color: #ffffff !important;
   }
   
   /* CRITICAL FIX: Apply gradient pattern overlay */
@@ -1916,6 +1938,31 @@ h4 {
     /* CRITICAL FIX: Ensure container doesn't overflow */
     overflow: visible;
     min-height: 0; /* Allow container to shrink */
+    /* ENHANCED FIX: Ensure proper positioning */
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+    /* Force reset any transforms that might position content outside viewport */
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+  }
+  
+  /* ENHANCED FIX: Ensure mobile sections can scroll if content is long */
+  .mobile-section {
+    scroll-behavior: auto !important; /* Disable smooth scrolling that might interfere */
+    -webkit-overflow-scrolling: touch; /* Better mobile scrolling */
+  }
+  
+  /* ENHANCED FIX: Debug borders for mobile sections (temporary diagnostic aid) */
+  .mobile-section.debug-mode {
+    border: 3px dashed red !important;
+    box-sizing: border-box !important;
+  }
+  
+  .mobile-section.debug-mode .container {
+    border: 2px dashed blue !important;
+    background: rgba(0, 255, 0, 0.1) !important;
   }
   
   /* CRITICAL FIX: Ensure section content is properly contained */

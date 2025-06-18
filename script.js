@@ -186,6 +186,178 @@ document.addEventListener('DOMContentLoaded', function() {
       swipeHint.style.display = 'none';
     }
     
+    // 🔧 DIAGNOSTIC AND FIX CODE - As requested
+    setTimeout(() => {
+      const targetSection = sections[currentSection];
+      if (!targetSection) {
+        console.error(`❌ Target section ${currentSection} not found!`);
+        return;
+      }
+      
+      console.group(`🔧 DIAGNOSTIC FIXES - Section ${currentSection}`);
+      
+      // 1. CRITICAL FIX: Reset scroll position to top
+      console.log('📍 Before scroll reset:', {
+        scrollTop: targetSection.scrollTop,
+        scrollHeight: targetSection.scrollHeight,
+        clientHeight: targetSection.clientHeight
+      });
+      
+      targetSection.scrollTop = 0;
+      console.log('✅ Scroll position reset to top');
+      
+      // 2. CRITICAL FIX: Force background color application with test
+      const sectionId = targetSection.id;
+      const gradientSections = ['solution', 'features', 'pricing', 'contact'];
+      const isGradientSection = gradientSections.includes(sectionId) || targetSection.classList.contains('section-padding-gradient');
+      
+      console.log('🎨 Background diagnosis:', {
+        sectionId,
+        isGradientSection,
+        currentBackground: window.getComputedStyle(targetSection).backgroundColor,
+        hasGradientClass: targetSection.classList.contains('section-padding-gradient')
+      });
+      
+      if (isGradientSection) {
+        // Force apply gradient background
+        targetSection.style.background = 'linear-gradient(135deg, #ea580c 0%, #fb923c 100%)';
+        targetSection.style.color = '#ffffff';
+        console.log('🎨 Applied gradient background to section', currentSection);
+        
+        // Test with temporary background for 2 seconds to verify visibility
+        if (currentSection === 1) { // Test on section 1 specifically
+          const originalBg = targetSection.style.background;
+          targetSection.style.backgroundColor = 'lightblue';
+          targetSection.style.border = '3px solid red';
+          console.log('🎨 Test: Applied lightblue background and red border to section 1');
+          setTimeout(() => {
+            targetSection.style.background = originalBg;
+            targetSection.style.backgroundColor = '';
+            targetSection.style.border = '';
+            console.log('🎨 Test: Restored original background');
+          }, 2000);
+        }
+      } else {
+        // Force white background for non-gradient sections
+        targetSection.style.backgroundColor = '#ffffff';
+        targetSection.style.color = '#1f2937';
+        console.log('🎨 Applied white background to section', currentSection);
+      }
+      
+      // 3. DIAGNOSTIC: getBoundingClientRect positioning check
+      const rect = targetSection.getBoundingClientRect();
+      console.log('📐 getBoundingClientRect analysis:', {
+        position: {
+          top: rect.top,
+          left: rect.left,
+          bottom: rect.bottom,
+          right: rect.right
+        },
+        dimensions: {
+          width: rect.width,
+          height: rect.height
+        },
+        viewport: {
+          width: window.innerWidth,
+          height: window.innerHeight
+        },
+        isInViewport: rect.left >= -10 && rect.left <= 10 && rect.top >= -50,
+        isFullyVisible: rect.left >= -10 && rect.left <= 10 && rect.top >= 0 && rect.bottom <= window.innerHeight
+      });
+      
+      // 4. DIAGNOSTIC: Content height vs display area analysis
+      const container = targetSection.querySelector('.container');
+      if (container) {
+        const containerRect = container.getBoundingClientRect();
+        console.log('📦 Container positioning analysis:', {
+          containerTop: containerRect.top,
+          containerHeight: containerRect.height,
+          sectionHeight: rect.height,
+          contentOverflow: containerRect.height > rect.height,
+          contentVisibleInViewport: containerRect.top >= 0 && containerRect.bottom <= window.innerHeight
+        });
+        
+        // Check if content is positioned outside viewport
+        if (containerRect.top > window.innerHeight || containerRect.bottom < 0) {
+          console.warn('⚠️ Container is positioned outside viewport!');
+          // Fix container positioning
+          container.style.transform = 'translateY(0)';
+          container.style.position = 'relative';
+          container.style.top = '0';
+          console.log('✅ Reset container positioning');
+        }
+      }
+      
+      // 5. DIAGNOSTIC: Overflow settings diagnosis
+      const computedStyle = window.getComputedStyle(targetSection);
+      console.log('📋 Overflow diagnosis:', {
+        overflow: computedStyle.overflow,
+        overflowX: computedStyle.overflowX,
+        overflowY: computedStyle.overflowY,
+        position: computedStyle.position,
+        display: computedStyle.display,
+        visibility: computedStyle.visibility,
+        opacity: computedStyle.opacity
+      });
+      
+      // Fix overflow issues if detected
+      if (computedStyle.overflowY === 'hidden') {
+        targetSection.style.overflowY = 'auto';
+        console.log('✅ Fixed overflowY from hidden to auto');
+      }
+      
+      // 6. VISUAL DEBUG INDICATORS (temporary)
+      // Add temporary border to make section boundaries visible
+      targetSection.style.border = '2px dashed rgba(255, 0, 0, 0.5)';
+      targetSection.style.boxSizing = 'border-box';
+      console.log('🔍 Added debug border to section', currentSection);
+      
+      // Add section number indicator
+      let debugIndicator = targetSection.querySelector('.debug-section-indicator');
+      if (!debugIndicator) {
+        debugIndicator = document.createElement('div');
+        debugIndicator.className = 'debug-section-indicator';
+        debugIndicator.style.cssText = `
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          background: rgba(255, 0, 0, 0.8);
+          color: white;
+          padding: 8px 12px;
+          border-radius: 20px;
+          font-weight: bold;
+          font-size: 14px;
+          z-index: 9999;
+          pointer-events: none;
+        `;
+        debugIndicator.textContent = `Section ${currentSection + 1}: ${sectionId || 'unnamed'}`;
+        targetSection.appendChild(debugIndicator);
+        console.log('🔍 Added debug section indicator');
+      }
+      
+      // Remove debug indicators after 5 seconds
+      setTimeout(() => {
+        targetSection.style.border = '';
+        if (debugIndicator) {
+          debugIndicator.remove();
+        }
+        console.log('🧹 Cleaned up debug indicators');
+      }, 5000);
+      
+      // 7. FADE-IN ANIMATION FIX: Ensure all content is immediately visible
+      const fadeElements = targetSection.querySelectorAll('.fade-in, .hero-content, .problem-item, .benefit-item, .result-item, .feature-item, .casestudy-item, .process-step, .pricing-plan, .faq-item');
+      fadeElements.forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        el.style.transition = 'none';
+      });
+      if (fadeElements.length > 0) {
+        console.log(`✅ Fixed visibility for ${fadeElements.length} fade-in elements`);
+      }
+      
+      console.groupEnd();
+    }, 100);
+    
     // Extended debug check after transform is applied
     setTimeout(() => {
       const currentSectionElement = sections[currentSection];
