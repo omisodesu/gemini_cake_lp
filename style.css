@@ -1818,9 +1818,12 @@ h4 {
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 40px 0 120px 0;
+    /* CRITICAL FIX: Reduce padding to prevent content overflow */
+    padding: 20px 0 60px 0; /* Reduced from 40px 0 120px 0 */
     box-sizing: border-box;
     background-color: #ffffff;
+    /* CRITICAL FIX: Ensure minimum content height fits in viewport */
+    min-height: 100vh;
   }
   
   .mobile-section.hero {
@@ -1829,17 +1832,29 @@ h4 {
     padding: 0;
   }
   
-  /* Ensure gradient backgrounds apply to mobile sections */
-  .mobile-section.section-padding-gradient,
-  .mobile-section .section-padding-gradient {
-    background: var(--bg-gradient);
-    color: var(--light-text-color);
+  /* CRITICAL FIX: Proper gradient background targeting for mobile sections */
+  .mobile-section.solution-section,
+  .mobile-section.features-section,
+  .mobile-section.pricing-section,
+  .mobile-section.cta-final-section {
+    background: var(--bg-gradient) !important;
+    color: var(--light-text-color) !important;
+  }
+  
+  /* CRITICAL FIX: Ensure section-padding-gradient class works on mobile */
+  .mobile-section.section-padding-gradient {
+    background: var(--bg-gradient) !important;
+    color: var(--light-text-color) !important;
     position: relative;
     overflow: hidden;
   }
   
+  /* CRITICAL FIX: Apply gradient pattern overlay */
   .mobile-section.section-padding-gradient::before,
-  .mobile-section .section-padding-gradient::before {
+  .mobile-section.solution-section::before,
+  .mobile-section.features-section::before,
+  .mobile-section.pricing-section::before,
+  .mobile-section.cta-final-section::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1850,10 +1865,28 @@ h4 {
     pointer-events: none;
   }
   
+  /* CRITICAL FIX: Ensure specific section backgrounds */
+  .mobile-section#solution { background: var(--bg-gradient) !important; color: var(--light-text-color) !important; }
+  .mobile-section#features { background: var(--bg-gradient) !important; color: var(--light-text-color) !important; }
+  .mobile-section#pricing { background: var(--bg-gradient) !important; color: var(--light-text-color) !important; }
+  .mobile-section#contact { background: var(--bg-gradient) !important; color: var(--light-text-color) !important; }
+  
+  /* CRITICAL FIX: Ensure white backgrounds for other sections */
+  .mobile-section#problem,
+  .mobile-section#results,
+  .mobile-section#casestudies,
+  .mobile-section#process,
+  .mobile-section#faq,
+  .mobile-section#stock-search {
+    background-color: #ffffff !important;
+    color: var(--text-color) !important;
+  }
+  
   /* Fix fade-in animation for mobile - ensure content is visible by default */
   .mobile-section .fade-in {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: none !important;
   }
   
   /* Override fade-in for mobile sections to ensure immediate visibility */
@@ -1868,15 +1901,38 @@ h4 {
   .mobile-section .faq-item {
     opacity: 1 !important;
     transform: translateY(0) !important;
+    transition: none !important;
   }
   
-  /* Ensure all content areas have proper flex settings and visibility */
+  /* CRITICAL FIX: Ensure all content areas have proper visibility and positioning */
   .mobile-section .container {
     display: flex;
     flex-direction: column;
     flex: 1;
     z-index: 2;
     position: relative;
+    width: 100%;
+    max-width: 100%;
+    /* CRITICAL FIX: Ensure container doesn't overflow */
+    overflow: visible;
+    min-height: 0; /* Allow container to shrink */
+  }
+  
+  /* CRITICAL FIX: Ensure section content is properly contained */
+  .mobile-section .section-title,
+  .mobile-section .section-title-light,
+  .mobile-section .section-subtitle,
+  .mobile-section .section-subtitle-light {
+    margin-bottom: 16px; /* Reduced spacing */
+  }
+  
+  /* CRITICAL FIX: Ensure grids don't cause overflow */
+  .mobile-section .problem-grid,
+  .mobile-section .results-grid,
+  .mobile-section .features-grid,
+  .mobile-section .solution-benefits,
+  .mobile-section .data-grid {
+    margin-bottom: 20px; /* Reduced spacing */
   }
   
   /* Hide footer on mobile swipe layout */
