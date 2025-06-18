@@ -33,7 +33,16 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
-    console.log(`goToSection: Moving to section ${sectionIndex}`);
+    console.log(`goToSection: Moving to section ${sectionIndex} of ${sections.length}`);
+    
+    // Debug: Log current section info
+    const targetSection = sections[sectionIndex];
+    if (targetSection) {
+      console.log(`goToSection: Target section classes:`, targetSection.className);
+      console.log(`goToSection: Target section has content:`, targetSection.innerHTML.length > 0);
+      console.log(`goToSection: Target section computed style:`, window.getComputedStyle(targetSection).backgroundColor);
+    }
+    
     currentSection = Math.max(0, Math.min(sectionIndex, sections.length - 1));
     const translateX = -currentSection * 100;
     console.log(`goToSection: translateX = ${translateX}vw`);
@@ -45,10 +54,27 @@ document.addEventListener('DOMContentLoaded', function() {
       dot.classList.toggle('active', index === currentSection);
     });
     
+    // Debug: Log current transform and section visibility
+    console.log(`goToSection: Container transform applied:`, swipeContainer.style.transform);
+    console.log(`goToSection: Current section ${currentSection} is visible`);
+    
     // Hide swipe hint after first interaction
     if (swipeHint && currentSection > 0) {
       swipeHint.style.display = 'none';
     }
+    
+    // Debug: Force visibility check for current section
+    setTimeout(() => {
+      const currentSectionElement = sections[currentSection];
+      if (currentSectionElement) {
+        console.log(`goToSection: Section ${currentSection} final visibility check:`, {
+          display: window.getComputedStyle(currentSectionElement).display,
+          opacity: window.getComputedStyle(currentSectionElement).opacity,
+          backgroundColor: window.getComputedStyle(currentSectionElement).backgroundColor,
+          height: window.getComputedStyle(currentSectionElement).height
+        });
+      }
+    }, 100);
   }
   
   // Touch event handling for swipe
@@ -124,15 +150,37 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize mobile swipe if on mobile device
   if (isMobile && swipeContainer) {
     console.log('Initializing mobile swipe functionality...');
+    console.log('Debug: Found', sections.length, 'mobile sections:');
+    
+    // Debug: Log all sections
+    sections.forEach((section, index) => {
+      console.log(`  Section ${index}:`, {
+        id: section.id,
+        classes: section.className,
+        hasContent: section.innerHTML.length > 0,
+        clientHeight: section.clientHeight,
+        backgroundColor: window.getComputedStyle(section).backgroundColor
+      });
+    });
+    
     initMobileNavigation();
     
     // Set initial position
     swipeContainer.style.transform = 'translateX(0vw)';
+    console.log('Debug: Initial transform set to translateX(0vw)');
+    
+    // Debug: Check container setup
+    console.log('Debug: Swipe container setup:', {
+      width: swipeContainer.clientWidth,
+      height: swipeContainer.clientHeight,
+      childrenCount: swipeContainer.children.length
+    });
     
     // Add touch event listeners
     swipeContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
     swipeContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
     swipeContainer.addEventListener('touchend', handleTouchEnd, { passive: false });
+    console.log('Debug: Touch event listeners added');
     
     // Add keyboard event listener
     document.addEventListener('keydown', handleKeyDown);
@@ -146,6 +194,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
       }
     }, 5000);
+    
+    console.log('Debug: Mobile swipe initialization complete');
+  } else {
+    console.log('Debug: Mobile swipe not initialized:', { isMobile, hasSwipeContainer: !!swipeContainer });
   }
 
   // Smooth scrolling for internal links (modified for mobile swipe)
