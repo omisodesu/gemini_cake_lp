@@ -1788,6 +1788,105 @@ h4 {
   box-shadow: var(--shadow);
 }
 
+/* --- Mobile Swipe Layout --- */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+  
+  .mobile-swipe-container {
+    display: flex;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .mobile-section {
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    scroll-snap-align: start;
+  }
+  
+  .mobile-section.hero {
+    min-height: 100vh;
+  }
+  
+  .mobile-section:not(.hero) {
+    padding: 60px 0;
+  }
+  
+  .mobile-navigation {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px 20px;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+  }
+  
+  .mobile-nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .mobile-nav-dot.active {
+    background: var(--accent-color);
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+  }
+  
+  .mobile-swipe-hint {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.875rem;
+    z-index: 999;
+    animation: fade-hint 3s ease-in-out infinite;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+  }
+  
+  @keyframes fade-hint {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  
+  .mobile-section-number {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+  }
+}
+
 @media (max-width: 640px) {
   .stock-search-input-group {
     flex-direction: column;
@@ -1815,5 +1914,68 @@ h4 {
   .symbol-btn {
     width: 100%;
     max-width: 300px;
+  }
+  
+  /* Mobile specific adjustments for swipe */
+  .container {
+    padding: 0 20px;
+  }
+  
+  .section-title, .section-title-light {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    margin-bottom: 20px;
+  }
+  
+  .section-subtitle, .section-subtitle-light {
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    margin-bottom: 30px;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .btn {
+    padding: 14px 24px;
+    font-size: 0.9rem;
+    min-height: 48px;
+  }
+  
+  .problem-grid, .results-grid, .features-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .casestudy-grid {
+    gap: 32px;
+  }
+  
+  .process-steps {
+    gap: 16px;
+  }
+  
+  .process-step {
+    padding: 24px 20px;
+    margin-bottom: 20px;
+  }
+  
+  .mobile-section .hero-content {
+    padding: 0 20px;
+  }
+  
+  .mobile-section .main-catchphrase {
+    font-size: clamp(2rem, 8vw, 3rem);
+    margin-bottom: 12px;
+  }
+  
+  .mobile-section .sub-catchphrase {
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    margin-bottom: 20px;
+  }
+  
+  .mobile-section .hero-description {
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    margin-bottom: 32px;
   }
 }
