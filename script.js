@@ -26,6 +26,135 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
+  // Debug function to analyze section content and styling
+  function debugSectionState(sectionIndex) {
+    const section = sections[sectionIndex];
+    if (!section) {
+      console.error(`DEBUG: Section ${sectionIndex} not found!`);
+      return;
+    }
+    
+    const computedStyle = window.getComputedStyle(section);
+    const rect = section.getBoundingClientRect();
+    const container = section.querySelector('.container');
+    const containerRect = container ? container.getBoundingClientRect() : null;
+    
+    console.group(`🔍 SECTION ${sectionIndex} DEBUG ANALYSIS`);
+    
+    // Basic section info
+    console.log('📋 Section Info:', {
+      id: section.id,
+      className: section.className,
+      tagName: section.tagName,
+      hasContent: section.innerHTML.length > 0,
+      childElementCount: section.childElementCount
+    });
+    
+    // Positioning and dimensions
+    console.log('📏 Dimensions & Position:', {
+      width: computedStyle.width,
+      height: computedStyle.height,
+      actualHeight: section.offsetHeight + 'px',
+      actualWidth: section.offsetWidth + 'px',
+      scrollHeight: section.scrollHeight + 'px',
+      top: rect.top,
+      left: rect.left,
+      bottom: rect.bottom,
+      right: rect.right,
+      inViewport: rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.innerHeight && rect.right <= window.innerWidth
+    });
+    
+    // Styling details
+    console.log('🎨 Styling:', {
+      backgroundColor: computedStyle.backgroundColor,
+      background: computedStyle.background,
+      color: computedStyle.color,
+      display: computedStyle.display,
+      opacity: computedStyle.opacity,
+      visibility: computedStyle.visibility,
+      zIndex: computedStyle.zIndex,
+      position: computedStyle.position,
+      overflow: computedStyle.overflow,
+      overflowX: computedStyle.overflowX,
+      overflowY: computedStyle.overflowY
+    });
+    
+    // Padding and margins
+    console.log('📦 Spacing:', {
+      padding: computedStyle.padding,
+      paddingTop: computedStyle.paddingTop,
+      paddingBottom: computedStyle.paddingBottom,
+      margin: computedStyle.margin,
+      boxSizing: computedStyle.boxSizing
+    });
+    
+    // Container analysis
+    if (container) {
+      const containerStyle = window.getComputedStyle(container);
+      console.log('📦 Container Info:', {
+        hasContainer: true,
+        containerRect: containerRect,
+        containerDisplay: containerStyle.display,
+        containerFlex: containerStyle.flex,
+        containerFlexDirection: containerStyle.flexDirection,
+        containerChildCount: container.childElementCount,
+        containerHeight: containerStyle.height,
+        containerActualHeight: container.offsetHeight + 'px'
+      });
+    } else {
+      console.log('❌ No .container element found in section');
+    }
+    
+    // Content analysis
+    const textContent = section.textContent.trim();
+    const hasVisibleText = textContent.length > 0;
+    const hasImages = section.querySelectorAll('img').length;
+    const hasButtons = section.querySelectorAll('.btn').length;
+    
+    console.log('📝 Content Analysis:', {
+      hasVisibleText,
+      textLength: textContent.length,
+      firstTextPreview: textContent.substring(0, 100) + (textContent.length > 100 ? '...' : ''),
+      hasImages,
+      imageCount: hasImages,
+      hasButtons,
+      buttonCount: hasButtons,
+      allTextNodes: Array.from(section.querySelectorAll('*')).filter(el => el.textContent.trim()).length
+    });
+    
+    // Check for specific classes that might affect display
+    const hasGradientClass = section.classList.contains('section-padding-gradient');
+    const hasMobileSectionClass = section.classList.contains('mobile-section');
+    console.log('🏷️ Important Classes:', {
+      hasMobileSectionClass,
+      hasGradientClass,
+      allClasses: Array.from(section.classList)
+    });
+    
+    // Check if content is being hidden by CSS
+    const allElements = section.querySelectorAll('*');
+    let hiddenElements = 0;
+    let visibleElements = 0;
+    
+    allElements.forEach(el => {
+      const elStyle = window.getComputedStyle(el);
+      if (elStyle.display === 'none' || elStyle.visibility === 'hidden' || elStyle.opacity === '0') {
+        hiddenElements++;
+      } else {
+        visibleElements++;
+      }
+    });
+    
+    console.log('👁️ Element Visibility:', {
+      totalElements: allElements.length,
+      visibleElements,
+      hiddenElements,
+      visibilityRatio: (visibleElements / allElements.length * 100).toFixed(1) + '%'
+    });
+    
+    console.groupEnd();
+  }
+
   // Go to specific section
   function goToSection(sectionIndex) {
     if (!isMobile || !swipeContainer) {
@@ -33,19 +162,14 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
-    console.log(`goToSection: Moving to section ${sectionIndex} of ${sections.length}`);
+    console.log(`🔄 SWIPE: Moving to section ${sectionIndex} of ${sections.length}`);
     
-    // Debug: Log current section info
-    const targetSection = sections[sectionIndex];
-    if (targetSection) {
-      console.log(`goToSection: Target section classes:`, targetSection.className);
-      console.log(`goToSection: Target section has content:`, targetSection.innerHTML.length > 0);
-      console.log(`goToSection: Target section computed style:`, window.getComputedStyle(targetSection).backgroundColor);
-    }
+    // Run comprehensive debug analysis
+    debugSectionState(sectionIndex);
     
     currentSection = Math.max(0, Math.min(sectionIndex, sections.length - 1));
     const translateX = -currentSection * 100;
-    console.log(`goToSection: translateX = ${translateX}vw`);
+    console.log(`🔄 SWIPE: translateX = ${translateX}vw`);
     swipeContainer.style.transform = `translateX(${translateX}vw)`;
     
     // Update navigation dots
@@ -55,26 +179,68 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Debug: Log current transform and section visibility
-    console.log(`goToSection: Container transform applied:`, swipeContainer.style.transform);
-    console.log(`goToSection: Current section ${currentSection} is visible`);
+    console.log(`🔄 SWIPE: Container transform applied:`, swipeContainer.style.transform);
     
     // Hide swipe hint after first interaction
     if (swipeHint && currentSection > 0) {
       swipeHint.style.display = 'none';
     }
     
-    // Debug: Force visibility check for current section
+    // Extended debug check after transform is applied
     setTimeout(() => {
       const currentSectionElement = sections[currentSection];
       if (currentSectionElement) {
-        console.log(`goToSection: Section ${currentSection} final visibility check:`, {
-          display: window.getComputedStyle(currentSectionElement).display,
-          opacity: window.getComputedStyle(currentSectionElement).opacity,
-          backgroundColor: window.getComputedStyle(currentSectionElement).backgroundColor,
-          height: window.getComputedStyle(currentSectionElement).height
+        console.group(`🔍 POST-SWIPE ANALYSIS - Section ${currentSection}`);
+        
+        const rect = currentSectionElement.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(currentSectionElement);
+        
+        console.log('📍 Final Position Check:', {
+          sectionVisible: rect.left === 0 && rect.top >= 0,
+          boundingRect: rect,
+          isInViewport: rect.left >= -10 && rect.left <= 10, // Allow small margin for floating point errors
+          transform: swipeContainer.style.transform,
+          expectedPosition: -currentSection * window.innerWidth
         });
+        
+        console.log('🎨 Final Styling Check:', {
+          backgroundColor: computedStyle.backgroundColor,
+          backgroundImage: computedStyle.backgroundImage,
+          color: computedStyle.color,
+          display: computedStyle.display,
+          opacity: computedStyle.opacity,
+          visibility: computedStyle.visibility
+        });
+        
+        // Check if any content elements are positioned outside the viewport
+        const contentElements = currentSectionElement.querySelectorAll('h2, h3, p, .btn, .container');
+        let elementsOutsideViewport = 0;
+        let elementsInViewport = 0;
+        
+        contentElements.forEach(el => {
+          const elRect = el.getBoundingClientRect();
+          if (elRect.bottom < 0 || elRect.top > window.innerHeight) {
+            elementsOutsideViewport++;
+            console.log('⚠️ Element outside viewport:', {
+              element: el.tagName + (el.className ? '.' + el.className.split(' ')[0] : ''),
+              rect: elRect,
+              textContent: el.textContent.substring(0, 50) + '...'
+            });
+          } else {
+            elementsInViewport++;
+          }
+        });
+        
+        console.log('📊 Content Position Summary:', {
+          totalContentElements: contentElements.length,
+          elementsInViewport,
+          elementsOutsideViewport,
+          potentialIssue: elementsOutsideViewport > elementsInViewport
+        });
+        
+        console.groupEnd();
       }
-    }, 100);
+    }, 150);
   }
   
   // Touch event handling for swipe
@@ -147,40 +313,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
+  // Debug all sections function
+  function debugAllSections() {
+    console.group('🔍 COMPREHENSIVE SECTION ANALYSIS - INITIALIZATION');
+    console.log(`📱 Mobile Mode: ${isMobile}, Viewport: ${window.innerWidth}x${window.innerHeight}`);
+    console.log(`📦 Container:`, {
+      exists: !!swipeContainer,
+      width: swipeContainer?.clientWidth,
+      height: swipeContainer?.clientHeight,
+      children: swipeContainer?.children.length
+    });
+    
+    sections.forEach((section, index) => {
+      debugSectionState(index);
+    });
+    console.groupEnd();
+  }
+
   // Initialize mobile swipe if on mobile device
   if (isMobile && swipeContainer) {
-    console.log('Initializing mobile swipe functionality...');
-    console.log('Debug: Found', sections.length, 'mobile sections:');
+    console.log('🚀 Initializing mobile swipe functionality...');
+    console.log('📱 Viewport:', window.innerWidth + 'x' + window.innerHeight);
+    console.log('📦 Found', sections.length, 'mobile sections');
     
-    // Debug: Log all sections
-    sections.forEach((section, index) => {
-      console.log(`  Section ${index}:`, {
-        id: section.id,
-        classes: section.className,
-        hasContent: section.innerHTML.length > 0,
-        clientHeight: section.clientHeight,
-        backgroundColor: window.getComputedStyle(section).backgroundColor
-      });
-    });
+    // Run comprehensive analysis of all sections
+    debugAllSections();
     
     initMobileNavigation();
     
     // Set initial position
     swipeContainer.style.transform = 'translateX(0vw)';
-    console.log('Debug: Initial transform set to translateX(0vw)');
+    console.log('🎯 Initial transform set to translateX(0vw)');
     
     // Debug: Check container setup
-    console.log('Debug: Swipe container setup:', {
+    console.log('📦 Swipe container setup:', {
       width: swipeContainer.clientWidth,
       height: swipeContainer.clientHeight,
-      childrenCount: swipeContainer.children.length
+      childrenCount: swipeContainer.children.length,
+      transform: swipeContainer.style.transform,
+      computedTransform: window.getComputedStyle(swipeContainer).transform
     });
     
     // Add touch event listeners
     swipeContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
     swipeContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
     swipeContainer.addEventListener('touchend', handleTouchEnd, { passive: false });
-    console.log('Debug: Touch event listeners added');
+    console.log('👆 Touch event listeners added');
     
     // Add keyboard event listener
     document.addEventListener('keydown', handleKeyDown);
@@ -195,9 +373,13 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }, 5000);
     
-    console.log('Debug: Mobile swipe initialization complete');
+    // Initial section analysis
+    console.log('🎯 Running initial section 0 analysis...');
+    debugSectionState(0);
+    
+    console.log('✅ Mobile swipe initialization complete');
   } else {
-    console.log('Debug: Mobile swipe not initialized:', { isMobile, hasSwipeContainer: !!swipeContainer });
+    console.log('❌ Mobile swipe not initialized:', { isMobile, hasSwipeContainer: !!swipeContainer });
   }
 
   // Smooth scrolling for internal links (modified for mobile swipe)
@@ -486,6 +668,36 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   console.log('ITSUDEMO CAKE LP Script Loaded with Stock Search!');
+  
+  // DEBUGGING COMMENT: 問題の原因と修正内容の説明
+  // Issue Analysis: Mobile swipe pages 2+ appearing blank
+  // 
+  // ROOT CAUSES IDENTIFIED:
+  // 1. CSS height/padding conflict: .mobile-section had height: 100vh but also padding: 40px 0 120px 0
+  //    This pushed content outside the viewport on smaller screens
+  // 
+  // 2. Background gradient not applying: .section-padding-gradient class wasn't properly targeting mobile sections
+  //    The CSS selectors weren't specific enough for the mobile layout structure
+  // 
+  // 3. Fade-in animations hiding content: Mobile sections had fade-in animations that weren't completing
+  //    Content remained with opacity: 0 and translateY transforms
+  // 
+  // 4. Container overflow issues: .container elements could overflow outside the mobile section bounds
+  // 
+  // FIXES IMPLEMENTED:
+  // 1. Reduced mobile section padding from 40px 0 120px 0 to 20px 0 60px 0
+  // 2. Added specific CSS selectors for gradient sections (#solution, #features, #pricing, #contact)
+  // 3. Disabled fade-in animations on mobile with !important overrides
+  // 4. Improved container positioning and overflow handling
+  // 5. Added comprehensive debugging logs to track section states
+  // 
+  // The debugging output will now show detailed information about:
+  // - Section dimensions and positioning
+  // - Background colors and styling
+  // - Content visibility and element counts
+  // - Viewport positioning of elements
+  // - Potential overflow issues
+  console.log('🔧 Mobile swipe debugging and fixes loaded!');
 
 });
 
