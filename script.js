@@ -1,17 +1,169 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  // Smooth scrolling for internal links
+  // Mobile Swipe Functionality
+  let currentSection = 0;
+  const sections = document.querySelectorAll('.mobile-section');
+  const swipeContainer = document.getElementById('mobile-swipe-container');
+  const mobileNavigation = document.getElementById('mobile-navigation');
+  const swipeHint = document.getElementById('mobile-swipe-hint');
+  const isMobile = window.innerWidth <= 768;
+  
+  // Initialize mobile navigation dots
+  function initMobileNavigation() {
+    if (!isMobile || !mobileNavigation) return;
+    
+    mobileNavigation.innerHTML = '';
+    sections.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.className = 'mobile-nav-dot';
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSection(index));
+      mobileNavigation.appendChild(dot);
+    });
+  }
+  
+  // Go to specific section
+  function goToSection(sectionIndex) {
+    if (!isMobile || !swipeContainer) return;
+    
+    currentSection = Math.max(0, Math.min(sectionIndex, sections.length - 1));
+    const translateX = -currentSection * 100;
+    swipeContainer.style.transform = `translateX(${translateX}vw)`;
+    
+    // Update navigation dots
+    const dots = document.querySelectorAll('.mobile-nav-dot');
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentSection);
+    });
+    
+    // Hide swipe hint after first interaction
+    if (swipeHint && currentSection > 0) {
+      swipeHint.style.display = 'none';
+    }
+  }
+  
+  // Touch event handling for swipe
+  let startX = 0;
+  let startY = 0;
+  let isDragging = false;
+  let hasMoved = false;
+  
+  function handleTouchStart(e) {
+    if (!isMobile) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isDragging = true;
+    hasMoved = false;
+  }
+  
+  function handleTouchMove(e) {
+    if (!isMobile || !isDragging) return;
+    
+    const currentX = e.touches[0].clientX;
+    const currentY = e.touches[0].clientY;
+    const deltaX = startX - currentX;
+    const deltaY = startY - currentY;
+    
+    // Check if horizontal swipe is more prominent than vertical
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+      e.preventDefault(); // Prevent default scrolling
+      hasMoved = true;
+    }
+  }
+  
+  function handleTouchEnd(e) {
+    if (!isMobile || !isDragging || !hasMoved) {
+      isDragging = false;
+      return;
+    }
+    
+    const endX = e.changedTouches[0].clientX;
+    const deltaX = startX - endX;
+    const swipeThreshold = 50;
+    
+    if (Math.abs(deltaX) > swipeThreshold) {
+      if (deltaX > 0 && currentSection < sections.length - 1) {
+        // Swipe left (next section)
+        goToSection(currentSection + 1);
+      } else if (deltaX < 0 && currentSection > 0) {
+        // Swipe right (previous section)
+        goToSection(currentSection - 1);
+      }
+    }
+    
+    isDragging = false;
+    hasMoved = false;
+  }
+  
+  // Keyboard navigation
+  function handleKeyDown(e) {
+    if (!isMobile) return;
+    
+    if (e.key === 'ArrowLeft' && currentSection > 0) {
+      goToSection(currentSection - 1);
+    } else if (e.key === 'ArrowRight' && currentSection < sections.length - 1) {
+      goToSection(currentSection + 1);
+    }
+  }
+  
+  // Initialize mobile swipe if on mobile device
+  if (isMobile) {
+    initMobileNavigation();
+    
+    // Add touch event listeners
+    swipeContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+    swipeContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+    swipeContainer.addEventListener('touchend', handleTouchEnd, { passive: false });
+    
+    // Add keyboard event listener
+    document.addEventListener('keydown', handleKeyDown);
+    
+    // Hide swipe hint after 5 seconds
+    setTimeout(() => {
+      if (swipeHint && currentSection === 0) {
+        swipeHint.style.opacity = '0';
+        setTimeout(() => {
+          if (swipeHint) swipeHint.style.display = 'none';
+        }, 500);
+      }
+    }, 5000);
+  }
+
+  // Smooth scrolling for internal links (modified for mobile swipe)
   const scrollLinks = document.querySelectorAll('.scroll-link');
   scrollLinks.forEach(link => {
       link.addEventListener('click', function(e) {
           e.preventDefault();
           const targetId = this.getAttribute('href');
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-              window.scrollTo({
-                  top: targetElement.offsetTop - 70, // Adjust for fixed header if any
-                  behavior: 'smooth'
-              });
+          
+          if (isMobile) {
+            // For mobile, find the section index and use swipe navigation
+            const sectionMapping = {
+              '#problem': 1,
+              '#solution': 2, 
+              '#results': 3,
+              '#features': 4,
+              '#casestudies': 5,
+              '#process': 6,
+              '#pricing': 7,
+              '#faq': 8,
+              '#stock-search': 9,
+              '#contact': 10
+            };
+            
+            const sectionIndex = sectionMapping[targetId];
+            if (sectionIndex !== undefined) {
+              goToSection(sectionIndex);
+            }
+          } else {
+            // Desktop behavior
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70, // Adjust for fixed header if any
+                    behavior: 'smooth'
+                });
+            }
           }
       });
   });
@@ -266,15 +418,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-// Add class to body when scrolling to enable sticky header or other effects
+// Add class to body when scrolling to enable sticky header or other effects (desktop only)
 window.addEventListener('scroll', function() {
-  const scrollY = window.scrollY;
-  if (scrollY > 100) {
-    document.body.classList.add('scrolled');
-  } else {
-    document.body.classList.remove('scrolled');
+  if (window.innerWidth > 768) { // Only on desktop
+    const scrollY = window.scrollY;
+    if (scrollY > 100) {
+      document.body.classList.add('scrolled');
+    } else {
+      document.body.classList.remove('scrolled');
+    }
+    if (hero) {
+      hero.style.backgroundPositionY = `${scrollY * 0.5}px`;
+    }
   }
-  if (hero) {
-    hero.style.backgroundPositionY = `${scrollY * 0.5}px`;
+});
+
+// Handle window resize to toggle mobile/desktop behavior
+window.addEventListener('resize', function() {
+  const newIsMobile = window.innerWidth <= 768;
+  
+  if (newIsMobile !== isMobile) {
+    // Refresh page to properly reinitialize
+    window.location.reload();
   }
 });
