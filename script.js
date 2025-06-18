@@ -6,12 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const swipeContainer = document.getElementById('mobile-swipe-container');
   const mobileNavigation = document.getElementById('mobile-navigation');
   const swipeHint = document.getElementById('mobile-swipe-hint');
-  const isMobile = window.innerWidth <= 768;
+  let isMobile = window.innerWidth <= 768;
   
   // Initialize mobile navigation dots
   function initMobileNavigation() {
-    if (!isMobile || !mobileNavigation) return;
+    if (!isMobile || !mobileNavigation) {
+      console.log('Mobile navigation init skipped:', {isMobile, mobileNavigation});
+      return;
+    }
     
+    console.log('Initializing mobile navigation with', sections.length, 'sections');
     mobileNavigation.innerHTML = '';
     sections.forEach((_, index) => {
       const dot = document.createElement('div');
@@ -24,10 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Go to specific section
   function goToSection(sectionIndex) {
-    if (!isMobile || !swipeContainer) return;
+    if (!isMobile || !swipeContainer) {
+      console.log('goToSection: Not mobile or no swipe container');
+      return;
+    }
     
+    console.log(`goToSection: Moving to section ${sectionIndex}`);
     currentSection = Math.max(0, Math.min(sectionIndex, sections.length - 1));
     const translateX = -currentSection * 100;
+    console.log(`goToSection: translateX = ${translateX}vw`);
     swipeContainer.style.transform = `translateX(${translateX}vw)`;
     
     // Update navigation dots
@@ -50,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   function handleTouchStart(e) {
     if (!isMobile) return;
+    console.log('Touch start detected');
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     isDragging = true;
@@ -68,11 +78,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
       e.preventDefault(); // Prevent default scrolling
       hasMoved = true;
+      console.log('Horizontal swipe detected, deltaX:', deltaX);
     }
   }
   
   function handleTouchEnd(e) {
-    if (!isMobile || !isDragging || !hasMoved) {
+    if (!isMobile || !isDragging) {
       isDragging = false;
       return;
     }
@@ -81,12 +92,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const deltaX = startX - endX;
     const swipeThreshold = 50;
     
-    if (Math.abs(deltaX) > swipeThreshold) {
+    console.log('Touch end, deltaX:', deltaX, 'hasMoved:', hasMoved);
+    
+    if (hasMoved && Math.abs(deltaX) > swipeThreshold) {
       if (deltaX > 0 && currentSection < sections.length - 1) {
         // Swipe left (next section)
+        console.log('Swiping to next section');
         goToSection(currentSection + 1);
       } else if (deltaX < 0 && currentSection > 0) {
         // Swipe right (previous section)
+        console.log('Swiping to previous section');
         goToSection(currentSection - 1);
       }
     }
@@ -107,8 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Initialize mobile swipe if on mobile device
-  if (isMobile) {
+  if (isMobile && swipeContainer) {
+    console.log('Initializing mobile swipe functionality...');
     initMobileNavigation();
+    
+    // Set initial position
+    swipeContainer.style.transform = 'translateX(0vw)';
     
     // Add touch event listeners
     swipeContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
@@ -438,6 +457,7 @@ window.addEventListener('resize', function() {
   const newIsMobile = window.innerWidth <= 768;
   
   if (newIsMobile !== isMobile) {
+    isMobile = newIsMobile;
     // Refresh page to properly reinitialize
     window.location.reload();
   }
