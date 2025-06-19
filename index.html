@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>いつでもケーキ - 24時間受付可能なケーキ予約システム</title>
     <meta name="description" content="ケーキ予約に特化した店頭受取予約システム「いつでもケーキ」で、売上アップと業務効率化を実現！お客様は24時間いつでも予約可能です。">
     <!-- Google Fonts (例: Noto Sans JP, Montserrat) -->
@@ -14,357 +14,332 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Page Navigation Indicator -->
+    <div class="page-indicator">
+        <div class="page-dots">
+            <div class="page-dot active" data-page="0"></div>
+            <div class="page-dot" data-page="1"></div>
+            <div class="page-dot" data-page="2"></div>
+            <div class="page-dot" data-page="3"></div>
+            <div class="page-dot" data-page="4"></div>
+            <div class="page-dot" data-page="5"></div>
+            <div class="page-dot" data-page="6"></div>
+            <div class="page-dot" data-page="7"></div>
+            <div class="page-dot" data-page="8"></div>
+            <div class="page-dot" data-page="9"></div>
+        </div>
+    </div>
 
-    <!-- Header / Hero Section -->
-    <header class="hero">
-        <div class="hero-overlay"></div>
-        <div class="container hero-content">
-            <div class="logo">
-                <img src="placeholder-logo.png" alt="いつでもケーキ ロゴ">
-                <h1>ITSUDEMO CAKE</h1>
+    <!-- Swipe Container -->
+    <div class="swipe-container" id="swipeContainer">
+
+        <!-- Page 1: Hero Section -->
+        <div class="page hero-page" data-page="0">
+            <div class="hero-overlay"></div>
+            <div class="container hero-content">
+                <div class="logo">
+                    <img src="placeholder-logo.png" alt="いつでもケーキ ロゴ">
+                    <h1>ITSUDEMO CAKE</h1>
+                </div>
+                <h2 class="main-catchphrase">お客様は<span class="highlight">24時間</span>『予約したい!』</h2>
+                <p class="sub-catchphrase">その声、聞いていますか？</p>
+                <p class="hero-description">ケーキ予約に特化した店頭受取予約システム「いつでもケーキ」で、<br>売上アップと劇的な業務効率化を実現！</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="goToPage(9)">今すぐ資料請求する (無料)</button>
+                    <button class="btn btn-secondary" onclick="goToPage(9)">まずは気軽に相談する (無料)</button>
+                </div>
+                <div class="limited-offer">
+                    <p>＼ 導入実績多数！ 限定10社様 特別プランあり ／</p>
+                </div>
             </div>
-            <h2 class="main-catchphrase">お客様は<span class="highlight">24時間</span>『予約したい!』</h2>
-            <p class="sub-catchphrase">その声、聞いていますか？</p>
-            <p class="hero-description">ケーキ予約に特化した店頭受取予約システム「いつでもケーキ」で、<br>売上アップと劇的な業務効率化を実現！</p>
-            <div class="cta-buttons">
-                <a href="#contact" class="btn btn-primary scroll-link">今すぐ資料請求する (無料)</a>
-                <a href="#contact" class="btn btn-secondary scroll-link">まずは気軽に相談する (無料)</a>
-            </div>
-            <div class="limited-offer">
-                <p>＼ 導入実績多数！ 限定10社様 特別プランあり ／</p>
+            <div class="swipe-hint">
+                <div class="swipe-arrow">→</div>
+                <p>スワイプして続きを見る</p>
             </div>
         </div>
-        <div class="scroll-down-indicator">
-            <a href="#problem" class="scroll-link"><span></span>Scroll</a>
-        </div>
-    </header>
 
-    <!-- Problem Section -->
-    <section id="problem" class="problem-section section-padding">
-        <div class="container">
-            <h2 class="section-title"><span>こんなお悩み</span>ありませんか？</h2>
-            <p class="section-subtitle">お店が抱える「予約」の課題</p>
-            <div class="problem-grid">
-                <div class="problem-item">
-                    <div class="problem-icon">[📞]</div>
-                    <h3>電話対応に追われる…</h3>
-                    <p>予約受付のための人員配置が必要で、他の業務が進まない。</p>
-                </div>
-                <div class="problem-item">
-                    <div class="problem-icon">[⏰]</div>
-                    <h3>営業時間外の機会損失…</h3>
-                    <p>受付時間が限られてしまい、お客様の予約機会を逃しているかも。</p>
-                </div>
-                <div class="problem-item">
-                    <div class="problem-icon">[📝]</div>
-                    <h3>聞き間違いや記入漏れ…</h3>
-                    <p>ケーキ予約時の情報が複雑で、人的ミスによるロスが心配。</p>
-                </div>
-                <div class="problem-item">
-                    <div class="problem-icon">[💸]</div>
-                    <h3>人件費の増加…</h3>
-                    <p>毎年上がり続ける最低賃金で、人件費の負担が大きい。</p>
-                </div>
-                <div class="problem-item">
-                    <div class="problem-icon">[😥]</div>
-                    <h3>スタッフによる対応差…</h3>
-                    <p>コミュニケーションスキルで受付数が変わってしまう。</p>
-                </div>
-            </div>
-            <p class="problem-empathy">そのお悩み、多くのお店が抱えています。<br>そして、お客様も不便を感じているかもしれません。</p>
-        </div>
-    </section>
-
-    <!-- Solution Section -->
-    <section id="solution" class="solution-section section-padding-gradient">
-        <div class="container">
-            <h2 class="section-title-light">そのお悩み、<span class="highlight-light">「いつでもケーキ」</span>が解決します！</h2>
-            <p class="section-subtitle-light">もう予約対応で悩まない！お店とお客様の“もっとこうなったらいいな”を叶えます。</p>
-            <div class="solution-benefits">
-                <div class="benefit-item">
-                    <div class="benefit-icon">[🕒]</div>
-                    <h3>24時間365日、予約受付を自動化！</h3>
-                    <p>お客様はいつでも好きな時に予約可能。機会損失を防ぎ、スタッフは製造や接客に集中できます。</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">[✅]</div>
-                    <h3>ミスなく、スムーズな予約管理！</h3>
-                    <p>オンラインで正確な情報を受け取り、聞き間違いや記入漏れを撲滅。事前決済で当日の会計もスムーズに。</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">[📈]</div>
-                    <h3>売上アップと顧客満足度向上を実現！</h3>
-                    <p>利便性向上で新規顧客獲得＆リピーター増加。データに基づいた商品開発や販促も可能になります。</p>
-                </div>
-            </div>
-            <div class="customer-needs-data">
-                <h3>お客様はWEB予約を求めています！</h3>
-                <div class="data-grid">
-                    <div class="data-item">
-                        <h4>30代のEC利用率</h4>
-                        <p class="data-value">83.2<span class="unit">%</span></p>
+        <!-- Page 2: Problem Section -->
+        <div class="page problem-page" data-page="1">
+            <div class="container">
+                <h2 class="section-title"><span>こんなお悩み</span>ありませんか？</h2>
+                <p class="section-subtitle">お店が抱える「予約」の課題</p>
+                <div class="problem-grid">
+                    <div class="problem-item">
+                        <div class="problem-icon">[📞]</div>
+                        <h3>電話対応に追われる…</h3>
+                        <p>予約受付のための人員配置が必要で、他の業務が進まない。</p>
                     </div>
-                    <div class="data-item">
-                        <h4>30代のWEB予約利用意向</h4>
-                        <p class="data-value">85.9<span class="unit">%</span></p>
+                    <div class="problem-item">
+                        <div class="problem-icon">[⏰]</div>
+                        <h3>営業時間外の機会損失…</h3>
+                        <p>受付時間が限られてしまい、お客様の予約機会を逃しているかも。</p>
                     </div>
-                    <div class="data-item">
-                        <h4>40代のEC利用率</h4>
-                        <p class="data-value">77.8<span class="unit">%</span></p>
+                    <div class="problem-item">
+                        <div class="problem-icon">[📝]</div>
+                        <h3>聞き間違いや記入漏れ…</h3>
+                        <p>ケーキ予約時の情報が複雑で、人的ミスによるロスが心配。</p>
                     </div>
-                    <div class="data-item">
-                        <h4>40代のWEB予約利用意向</h4>
-                        <p class="data-value">74.1<span class="unit">%</span></p>
+                    <div class="problem-item">
+                        <div class="problem-icon">[💸]</div>
+                        <h3>人件費の増加…</h3>
+                        <p>毎年上がり続ける最低賃金で、人件費の負担が大きい。</p>
+                    </div>
+                    <div class="problem-item">
+                        <div class="problem-icon">[😥]</div>
+                        <h3>スタッフによる対応差…</h3>
+                        <p>コミュニケーションスキルで受付数が変わってしまう。</p>
                     </div>
                 </div>
-                <p class="data-source">出典: 総務省「情報通信白書」(2023年) ※当社調べ、WEBアンケート</p>
+                <p class="problem-empathy">そのお悩み、多くのお店が抱えています。<br>そして、お客様も不便を感じているかもしれません。</p>
             </div>
         </div>
-    </section>
 
-    <!-- Results Section -->
-    <section id="results" class="results-section section-padding">
-        <div class="container">
-            <h2 class="section-title">「いつでもケーキ」導入でこんなに変わる！</h2>
-            <p class="section-subtitle">驚きの導入効果をご紹介</p>
-            <div class="results-grid">
-                <div class="result-item">
-                    <p class="result-label">クリスマスケーキWEB予約数</p>
-                    <p class="result-value-large"><span class="small-text">0件</span> → 152<span class="unit">件</span></p>
-                    <p class="result-caption">導入初年度実績 /367件中</p>
-                </div>
-                <div class="result-item">
-                    <p class="result-label">クリスマスケーキ予約件数全体</p>
-                    <p class="result-value">11<span class="unit">% UP</span></p>
-                    <p class="result-caption">前年比 /408件</p>
-                </div>
-                <div class="result-item">
-                    <p class="result-label">営業時間外の予約獲得</p>
-                    <p class="result-value">128<span class="unit">件</span></p>
-                    <p class="result-caption">お客様の利便性向上！</p>
-                </div>
-                <div class="result-item">
-                    <p class="result-label">接客・電話対応時間</p>
-                    <p class="result-value">29<span class="unit">時間</span>23<span class="unit">分</span><span class="highlight">削減</span></p>
-                    <p class="result-caption">※1回の電話対応7.5分で計算</p>
-                </div>
-            </div>
-            <p class="results-dev-story">飲食コンサルやケーキ店様との共同開発により、本当に必要な機能だけを厳選。<br>だから使いやすく、効果も出るんです！</p>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features-section section-padding-gradient">
-        <div class="container">
-            <h2 class="section-title-light">「いつでもケーキ」の主な機能</h2>
-            <p class="section-subtitle-light">かゆいところに手が届く充実機能</p>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div class="feature-icon">[💻]</div>
-                    <h4>24時間 予約受付</h4>
-                    <p>事前・当日予約も設定可能。オンラインで予約対応を自動化。</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[💳]</div>
-                    <h4>事前決済</h4>
-                    <p>クレジットカード決済で店頭対応時間を大幅削減。キャンセル抑止効果も。</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[📄]</div>
-                    <h4>伝票印刷</h4>
-                    <p>注文内容をレシートプリンターで印刷し厨房とスムーズに連携。(※プリンター別途)</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[📊]</div>
-                    <h4>管理パネル</h4>
-                    <p>直感的な操作で予約状況や売上を一元管理。</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[🍰]</div>
-                    <h4>メニュー管理</h4>
-                    <p>商品登録や変更も簡単。写真や説明文で魅力を最大限に。</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[⚙️]</div>
-                    <h4>オプション設定</h4>
-                    <p>サイズ、クリームの種類、メッセージプレートなど細かく設定可能。</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[ℹ️]</div>
-                    <h4>原材料表示</h4>
-                    <p>アレルギー情報など、お客様への情報提供もバッチリ。</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[📤]</div>
-                    <h4>顧客データ出力</h4>
-                    <p>予約情報をCSVで出力。販促活動に活用。</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[📧]</div>
-                    <h4>メーリングリスト</h4>
-                    <p>お客様へのDMやメルマガ配信に。</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[📦]</div>
-                    <h4>在庫管理</h4>
-                    <p>商品ごとの在庫数を設定し、売り切れによる機会損失を防止。</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">[🖼️]</div>
-                    <h4>写真データアップロード</h4>
-                    <p>美味しそうな商品写真で予約率アップ。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Case Studies Section -->
-    <section id="casestudies" class="casestudies-section section-padding">
-        <div class="container">
-            <h2 class="section-title">導入事例</h2>
-            <p class="section-subtitle">喜びの声が続々届いています！</p>
-            <div class="casestudy-grid">
-                <div class="casestudy-item">
-                    <img src="placeholder-shop1.jpg" alt="パティスリー レ・トロワ・ソレイユ" class="casestudy-img">
-                    <div class="casestudy-content">
-                        <h3>パティスリー レ・トロワ・ソレイユ様</h3>
-                        <p>「長期休業を経て再開店する際、新たな取り組みとしてWEB予約を導入。当初は店頭でさりげなく案内する程度でしたが、予想以上にお客様がWEB予約を活用してくださり、その需要の高さに驚きました。お客様の利便性向上を実感しています。」</p>
-                        <!-- <a href="#" class="btn btn-outline">WEBサイトを見る</a> -->
+        <!-- Page 3: Solution Section -->
+        <div class="page solution-page" data-page="2">
+            <div class="container">
+                <h2 class="section-title-light">そのお悩み、<span class="highlight-light">「いつでもケーキ」</span>が解決します！</h2>
+                <p class="section-subtitle-light">もう予約対応で悩まない！お店とお客様の"もっとこうなったらいいな"を叶えます。</p>
+                <div class="solution-benefits">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">[🕒]</div>
+                        <h3>24時間365日、予約受付を自動化！</h3>
+                        <p>お客様はいつでも好きな時に予約可能。機会損失を防ぎ、スタッフは製造や接客に集中できます。</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">[✅]</div>
+                        <h3>ミスなく、スムーズな予約管理！</h3>
+                        <p>オンラインで正確な情報を受け取り、聞き間違いや記入漏れを撲滅。事前決済で当日の会計もスムーズに。</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">[📈]</div>
+                        <h3>売上アップと顧客満足度向上を実現！</h3>
+                        <p>利便性向上で新規顧客獲得＆リピーター増加。データに基づいた商品開発や販促も可能になります。</p>
                     </div>
                 </div>
-                <div class="casestudy-item">
-                    <img src="placeholder-shop2.jpg" alt="パティスリー ループ" class="casestudy-img">
-                    <div class="casestudy-content">
-                        <h3>パティスリー ループ様</h3>
-                        <p>「人手不足と働き方改革で店休日を増やしましたが、休日にかかってくる予約電話での機会損失が気になっていました。お客様の声に応え、24時間いつでも予約できるWEBシステムを導入。店休日でも予約が入るようになり、安心して休めるようになりました。」</p>
-                        <!-- <a href="#" class="btn btn-outline">WEBサイトを見る</a> -->
+                <div class="customer-needs-data">
+                    <h3>お客様はWEB予約を求めています！</h3>
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <h4>30代のEC利用率</h4>
+                            <p class="data-value">83.2<span class="unit">%</span></p>
+                        </div>
+                        <div class="data-item">
+                            <h4>30代のWEB予約利用意向</h4>
+                            <p class="data-value">85.9<span class="unit">%</span></p>
+                        </div>
+                        <div class="data-item">
+                            <h4>40代のEC利用率</h4>
+                            <p class="data-value">77.8<span class="unit">%</span></p>
+                        </div>
+                        <div class="data-item">
+                            <h4>40代のWEB予約利用意向</h4>
+                            <p class="data-value">74.1<span class="unit">%</span></p>
+                        </div>
+                    </div>
+                    <p class="data-source">出典: 総務省「情報通信白書」(2023年) ※当社調べ、WEBアンケート</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 4: Results Section -->
+        <div class="page results-page" data-page="3">
+            <div class="container">
+                <h2 class="section-title">「いつでもケーキ」導入でこんなに変わる！</h2>
+                <p class="section-subtitle">驚きの導入効果をご紹介</p>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <p class="result-label">クリスマスケーキWEB予約数</p>
+                        <p class="result-value-large"><span class="small-text">0件</span> → 152<span class="unit">件</span></p>
+                        <p class="result-caption">導入初年度実績 /367件中</p>
+                    </div>
+                    <div class="result-item">
+                        <p class="result-label">クリスマスケーキ予約件数全体</p>
+                        <p class="result-value">11<span class="unit">% UP</span></p>
+                        <p class="result-caption">前年比 /408件</p>
+                    </div>
+                    <div class="result-item">
+                        <p class="result-label">営業時間外の予約獲得</p>
+                        <p class="result-value">128<span class="unit">件</span></p>
+                        <p class="result-caption">お客様の利便性向上！</p>
+                    </div>
+                    <div class="result-item">
+                        <p class="result-label">接客・電話対応時間</p>
+                        <p class="result-value">29<span class="unit">時間</span>23<span class="unit">分</span><span class="highlight">削減</span></p>
+                        <p class="result-caption">※1回の電話対応7.5分で計算</p>
+                    </div>
+                </div>
+                <p class="results-dev-story">飲食コンサルやケーキ店様との共同開発により、本当に必要な機能だけを厳選。<br>だから使いやすく、効果も出るんです！</p>
+            </div>
+        </div>
+
+        <!-- Page 5: Features Section -->
+        <div class="page features-page" data-page="4">
+            <div class="container">
+                <h2 class="section-title-light">「いつでもケーキ」の主な機能</h2>
+                <p class="section-subtitle-light">かゆいところに手が届く充実機能</p>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">[💻]</div>
+                        <h4>24時間 予約受付</h4>
+                        <p>事前・当日予約も設定可能。オンラインで予約対応を自動化。</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">[💳]</div>
+                        <h4>事前決済</h4>
+                        <p>クレジットカード決済で店頭対応時間を大幅削減。キャンセル抑止効果も。</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">[📄]</div>
+                        <h4>伝票印刷</h4>
+                        <p>注文内容をレシートプリンターで印刷し厨房とスムーズに連携。(※プリンター別途)</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">[📊]</div>
+                        <h4>管理パネル</h4>
+                        <p>直感的な操作で予約状況や売上を一元管理。</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">[🍰]</div>
+                        <h4>メニュー管理</h4>
+                        <p>商品登録や変更も簡単。写真や説明文で魅力を最大限に。</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">[⚙️]</div>
+                        <h4>オプション設定</h4>
+                        <p>サイズ、クリームの種類、メッセージプレートなど細かく設定可能。</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Process Section -->
-    <section id="process" class="process-section section-padding">
-        <div class="container">
-            <h2 class="section-title">かんたん導入！</h2>
-            <p class="section-subtitle">最短X週間でスタート可能 ～導入までの流れ～</p>
-            <div class="process-steps">
-                <div class="process-step">
-                    <div class="step-number">1</div>
-                    <h4>お問い合わせ・ご相談</h4>
-                    <p>ヒアリング・導入事前相談 (弊社・お客様 / 5営業日目安)</p>
-                </div>
-                <div class="process-connector"></div>
-                <div class="process-step">
-                    <div class="step-number">2</div>
-                    <h4>ご契約・お申込み</h4>
-                    <p>プラン内容にご納得いただけましたらご契約 (弊社・お客様 / 3営業日目安)</p>
-                </div>
-                <div class="process-connector"></div>
-                <div class="process-step">
-                    <div class="step-number">3</div>
-                    <h4>システム設定・アカウント発行</h4>
-                    <p>弊社にて初期設定、PayPal利用申請サポート (弊社 / 5営業日目安、PayPal審査 約2～3週間)</p>
-                </div>
-                <div class="process-connector"></div>
-                <div class="process-step">
-                    <div class="step-number">4</div>
-                    <h4>操作説明・お引渡し</h4>
-                    <p>システム操作方法をご説明 (弊社 / 10営業日目安)</p>
-                </div>
-                <div class="process-connector"></div>
-                <div class="process-step">
-                    <div class="step-number">5</div>
-                    <h4>商品情報登録</h4>
-                    <p>お店のメニューをシステムに登録 (お客様)</p>
-                </div>
-                <div class="process-connector"></div>
-                <div class="process-step">
-                    <div class="step-number">6</div>
-                    <h4>運用開始！</h4>
-                    <p>お客様へWEB予約をご案内し、公開！ (お客様)</p>
+        <!-- Page 6: Case Studies Section -->
+        <div class="page casestudies-page" data-page="5">
+            <div class="container">
+                <h2 class="section-title">導入事例</h2>
+                <p class="section-subtitle">喜びの声が続々届いています！</p>
+                <div class="casestudy-grid">
+                    <div class="casestudy-item">
+                        <img src="placeholder-shop1.jpg" alt="パティスリー レ・トロワ・ソレイユ" class="casestudy-img">
+                        <div class="casestudy-content">
+                            <h3>パティスリー レ・トロワ・ソレイユ様</h3>
+                            <p>「長期休業を経て再開店する際、新たな取り組みとしてWEB予約を導入。当初は店頭でさりげなく案内する程度でしたが、予想以上にお客様がWEB予約を活用してくださり、その需要の高さに驚きました。お客様の利便性向上を実感しています。」</p>
+                        </div>
+                    </div>
+                    <div class="casestudy-item">
+                        <img src="placeholder-shop2.jpg" alt="パティスリー ループ" class="casestudy-img">
+                        <div class="casestudy-content">
+                            <h3>パティスリー ループ様</h3>
+                            <p>「人手不足と働き方改革で店休日を増やしましたが、休日にかかってくる予約電話での機会損失が気になっていました。お客様の声に応え、24時間いつでも予約できるWEBシステムを導入。店休日でも予約が入るようになり、安心して休めるようになりました。」</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <p class="process-note">※PayPalをご自身でご契約の場合はアカウント連携無料で対応。弊社決済アカウント利用時は別途手数料。</p>
         </div>
-    </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing-section section-padding-gradient">
-        <div class="container">
-            <h2 class="section-title-light">料金プラン</h2>
-            <p class="section-subtitle-light">今ならお得な限定プランも！</p>
-            <div class="pricing-plan">
-                <div class="plan-badge">限定10社様</div>
-                <h3>基本料金</h3>
-                <p class="price">月額 <span>9,900</span>円 <span class="tax">(税込)</span></p>
-                <p class="contract-term">(2年間契約)</p>
-                <ul class="plan-features">
-                    <li><span class="check-icon">[✓]</span> 全ての基本機能利用可能</li>
-                    <li><span class="check-icon">[✓]</span> 導入サポート</li>
-                    <li><span class="check-icon">[✓]</span> メール・電話サポート</li>
-                </ul>
-                <a href="#contact" class="btn btn-primary-light scroll-link">詳しいプラン・お見積りはこちら</a>
-                <p class="pricing-notes">
-                    ※弊社の決済アカウントを利用する場合は、決済手数料が別途掛かります。<br>
-                    (PayPalをご自身でご契約いただける場合は、アカウント連携は無料で対応いたします。)<br>
-                    ※クレジット決済手数料は、規定の金額がかかります。<br>
-                    ※伝票印刷用プリンターは別途ご用意ください。
+        <!-- Page 7: Process Section -->
+        <div class="page process-page" data-page="6">
+            <div class="container">
+                <h2 class="section-title">かんたん導入！</h2>
+                <p class="section-subtitle">最短X週間でスタート可能 ～導入までの流れ～</p>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h4>お問い合わせ・ご相談</h4>
+                        <p>ヒアリング・導入事前相談 (弊社・お客様 / 5営業日目安)</p>
+                    </div>
+                    <div class="process-connector"></div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h4>ご契約・お申込み</h4>
+                        <p>プラン内容にご納得いただけましたらご契約 (弊社・お客様 / 3営業日目安)</p>
+                    </div>
+                    <div class="process-connector"></div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h4>システム設定・アカウント発行</h4>
+                        <p>弊社にて初期設定、PayPal利用申請サポート (弊社 / 5営業日目安、PayPal審査 約2～3週間)</p>
+                    </div>
+                </div>
+                <p class="process-note">※PayPalをご自身でご契約の場合はアカウント連携無料で対応。弊社決済アカウント利用時は別途手数料。</p>
+            </div>
+        </div>
+
+        <!-- Page 8: Pricing Section -->
+        <div class="page pricing-page" data-page="7">
+            <div class="container">
+                <h2 class="section-title-light">料金プラン</h2>
+                <p class="section-subtitle-light">今ならお得な限定プランも！</p>
+                <div class="pricing-plan">
+                    <div class="plan-badge">限定10社様</div>
+                    <h3>基本料金</h3>
+                    <p class="price">月額 <span>9,900</span>円 <span class="tax">(税込)</span></p>
+                    <p class="contract-term">(2年間契約)</p>
+                    <ul class="plan-features">
+                        <li><span class="check-icon">[✓]</span> 全ての基本機能利用可能</li>
+                        <li><span class="check-icon">[✓]</span> 導入サポート</li>
+                        <li><span class="check-icon">[✓]</span> メール・電話サポート</li>
+                    </ul>
+                    <button class="btn btn-primary-light" onclick="goToPage(9)">詳しいプラン・お見積りはこちら</button>
+                    <p class="pricing-notes">
+                        ※弊社の決済アカウントを利用する場合は、決済手数料が別途掛かります。<br>
+                        (PayPalをご自身でご契約いただける場合は、アカウント連携は無料で対応いたします。)<br>
+                        ※クレジット決済手数料は、規定の金額がかかります。<br>
+                        ※伝票印刷用プリンターは別途ご用意ください。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 9: FAQ Section -->
+        <div class="page faq-page" data-page="8">
+            <div class="container">
+                <h2 class="section-title">よくあるご質問</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>パソコン操作が苦手でも使えますか？</summary>
+                        <p>はい、直感的で簡単な操作画面ですのでご安心ください。導入時には丁寧な操作説明も行いますので、どなたでも安心してご利用いただけます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>どんな業種のケーキ店に向いていますか？</summary>
+                        <p>個人経営のパティスリー様から複数店舗展開されている企業様まで、規模を問わず幅広くご利用いただけます。特に、予約業務に課題を感じているお店様には最適です。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>サポート体制はどうなっていますか？</summary>
+                        <p>導入時の設定サポートはもちろん、運用開始後もメールやお電話でのサポートをご用意しております。ご不明な点があれば、いつでもお気軽にご相談ください。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>最低契約期間はありますか？</summary>
+                        <p>基本プランは2年契約となります。詳細な契約条件については、お問い合わせ時にご説明させていただきます。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>導入までどのくらいの期間がかかりますか？</summary>
+                        <p>お申込みから最短で約4週間～1ヶ月半程度（PayPal審査期間含む）で運用開始可能です。お店の状況やご要望に応じて調整いたしますので、お急ぎの場合はご相談ください。</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 10: Contact Section -->
+        <div class="page contact-page" data-page="9">
+            <div class="container">
+                <h2 class="section-title-light">さあ、あなたのお店も「いつでもケーキ」で<br>新しい予約体験を始めませんか？</h2>
+                <p class="cta-final-message">
+                    「予約業務の負担を減らし、もっとケーキ作りに集中したい」<br>
+                    「お客様にもっと便利に、もっと喜んでほしい」<br>
+                    「新しい時代に合ったお店作りで、売上を伸ばしたい」<br>
+                    <strong>「いつでもケーキ」が、その想いをカタチにします！</strong>
                 </p>
+                <div class="cta-buttons">
+                    <a href="mailto:info@gadandan.co.jp?subject=いつでもケーキ資料請求&body=担当者名：%0D%0A店舗名：%0D%0A電話番号：%0D%0A" class="btn btn-primary-light-large">今すぐ無料で資料請求する</a>
+                    <a href="mailto:info@gadandan.co.jp?subject=いつでもケーキ無料相談&body=担当者名：%0D%0A店舗名：%0D%0A電話番号：%0D%0A相談内容： " class="btn btn-secondary-light-large">専門スタッフに無料で相談する</a>
+                </div>
+                <div class="contact-info">
+                    <p>お問い合わせ先: <a href="mailto:info@gadandan.co.jp">info@gadandan.co.jp</a> (担当: 大山)</p>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="faq-section section-padding">
-        <div class="container">
-            <h2 class="section-title">よくあるご質問</h2>
-            <div class="faq-list">
-                <details class="faq-item">
-                    <summary>パソコン操作が苦手でも使えますか？</summary>
-                    <p>はい、直感的で簡単な操作画面ですのでご安心ください。導入時には丁寧な操作説明も行いますので、どなたでも安心してご利用いただけます。</p>
-                </details>
-                <details class="faq-item">
-                    <summary>どんな業種のケーキ店に向いていますか？</summary>
-                    <p>個人経営のパティスリー様から複数店舗展開されている企業様まで、規模を問わず幅広くご利用いただけます。特に、予約業務に課題を感じているお店様には最適です。</p>
-                </details>
-                <details class="faq-item">
-                    <summary>サポート体制はどうなっていますか？</summary>
-                    <p>導入時の設定サポートはもちろん、運用開始後もメールやお電話でのサポートをご用意しております。ご不明な点があれば、いつでもお気軽にご相談ください。</p>
-                </details>
-                <details class="faq-item">
-                    <summary>最低契約期間はありますか？</summary>
-                    <p>基本プランは2年契約となります。詳細な契約条件については、お問い合わせ時にご説明させていただきます。</p>
-                </details>
-                <details class="faq-item">
-                    <summary>導入までどのくらいの期間がかかりますか？</summary>
-                    <p>お申込みから最短で約4週間～1ヶ月半程度（PayPal審査期間含む）で運用開始可能です。お店の状況やご要望に応じて調整いたしますので、お急ぎの場合はご相談ください。</p>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <!-- Call to Action Section -->
-    <section id="contact" class="cta-final-section section-padding-gradient">
-        <div class="container">
-            <h2 class="section-title-light">さあ、あなたのお店も「いつでもケーキ」で<br>新しい予約体験を始めませんか？</h2>
-            <p class="cta-final-message">
-                「予約業務の負担を減らし、もっとケーキ作りに集中したい」<br>
-                「お客様にもっと便利に、もっと喜んでほしい」<br>
-                「新しい時代に合ったお店作りで、売上を伸ばしたい」<br>
-                <strong>「いつでもケーキ」が、その想いをカタチにします！</strong>
-            </p>
-            <div class="cta-buttons">
-                <a href="mailto:info@gadandan.co.jp?subject=いつでもケーキ資料請求&body=担当者名：%0D%0A店舗名：%0D%0A電話番号：%0D%0A" class="btn btn-primary-light-large">今すぐ無料で資料請求する</a>
-                <a href="mailto:info@gadandan.co.jp?subject=いつでもケーキ無料相談&body=担当者名：%0D%0A店舗名：%0D%0A電話番号：%0D%0A相談内容： " class="btn btn-secondary-light-large">専門スタッフに無料で相談する</a>
-            </div>
-            <div class="contact-info">
-                <p>お問い合わせ先: <a href="mailto:info@gadandan.co.jp">info@gadandan.co.jp</a> (担当: 大山)</p>
-                <!-- <p>お電話でのお問い合わせ: 0X0-XXXX-XXXX (受付時間: 平日XX:XX～XX:XX)</p> -->
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -386,7 +361,6 @@
             </div>
             <div class="footer-bottom">
                 <p>© 2024 GADANDAN Inc. All Rights Reserved.</p>
-                <!-- <p><a href="#">プライバシーポリシー</a> | <a href="#">利用規約</a> | <a href="#">特定商取引法に基づく表記</a></p> -->
             </div>
         </div>
     </footer>
